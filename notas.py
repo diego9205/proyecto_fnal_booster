@@ -1,6 +1,8 @@
 from pathlib import Path
 from datetime import datetime
 import json
+
+
 print("------Bienvenido al sistema de notas------  \n")
 
 notas = []
@@ -44,7 +46,62 @@ def cargar_notas():
     except FileNotFoundError:
         notas = []
 
+def buscar_nota():
+    busqueda = input("Ingrese el título de la nota que desea buscar: \n").lower()
+    encontrada = False
+    for nota in notas:
+        if busqueda in nota["titulo"].lower():
+            print(f"Título: {nota['titulo']}")
+            print(f"Contenido: {nota['contenido']}")
+            print(f"Categoría: {nota['categoria']}")
+            print(f"Fecha: {nota['fecha']}")
+            print("------------------------")
+            encontrada = True
+    if not encontrada:
+        print("No se encontró ninguna nota con ese título.")
 
+def ver_nota():
+    if not notas:
+        print("No hay notas para mostrar.")
+        return
+    for i, nota in enumerate(notas, start=1):
+        print(f"{i}. {nota['titulo']}")
+
+    while True:
+        try:
+            opcion = int(input("Seleccione el número de la nota que desea ver: "))
+            if 1 <= opcion <= len(notas):
+                nota_seleccionada = notas[opcion - 1]
+                print(f"Título: {nota_seleccionada['titulo']}")
+                print(f"Contenido: {nota_seleccionada['contenido']}")
+                print(f"Categoría: {nota_seleccionada['categoria']}")
+                print(f"Fecha: {nota_seleccionada['fecha']}")
+                break
+            else:
+                print("Número de nota inválido. Intente nuevamente.")
+        except ValueError:
+            print("Entrada inválida. Por favor, ingrese un número válido.")
+
+
+def eliminar_nota():
+    if not notas:
+        print("No hay notas para eliminar.")
+        return
+    for i, nota in enumerate(notas, start=1):
+        print(f"{i}. {nota['titulo']}")
+
+    while True:
+        try:
+            opcion = int(input("Seleccione el número de la nota que desea eliminar: \n"))
+            if 1 <= opcion <= len(notas):
+                del notas[opcion -1]
+                print("Nota eliminada exitosamente.")
+                guardar_notas()
+                break
+            else:
+                print("Número de nota inválido. Intente nuevamente.")
+        except ValueError:
+            print("Entrada inválida. Por favor, ingrese un número válido.")
 
 
 
