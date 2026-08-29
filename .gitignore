@@ -1,0 +1,7 @@
+# Archivos de datos privados / locales
+notas.json
+
+# Entornos virtuales o archivos temporales de Python (Recomendado)
+__pycache__/
+*.pyc
+.env
