@@ -17,6 +17,7 @@ def agregar_nota():
         "fecha": tiempo
     }
     notas.append(nota)
+    guardar_notas()
 
 def ver_notas():
     if not notas:
@@ -29,6 +30,22 @@ def ver_notas():
             print(f"Categoría: {note['categoria']}")
             print(f"Fecha: {note['fecha']}")
             print("------------------------")
+
+def guardar_notas():
+    with open("notas.json", "w", encoding="utf-8") as archivo:
+        json.dump(notas, archivo, indent=4)
+ 
+def cargar_notas():
+    global notas
+    try:
+        with open("notas.json", "r", encoding="utf-8") as archivo:
+            notas = json.load(archivo)
+
+    except FileNotFoundError:
+        notas = []
+
+
+
 
 
 menu = """
@@ -43,7 +60,7 @@ Seleccione una opción:
 \n
 """
 
-
+cargar_notas()
 opc = 0
 
 while opc != 7:
