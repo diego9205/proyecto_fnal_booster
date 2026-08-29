@@ -104,7 +104,46 @@ def eliminar_nota():
             print("Entrada inválida. Por favor, ingrese un número válido.")
 
 
+def editar_nota():
+    if not notas:
+        print("No hay notas para editar.")
+        return
 
+    for i, nota in enumerate(notas, start=1):
+        print(f"{i}. {nota['titulo']}")
+
+    while True:
+        try:
+            opcion = int(input("Seleccione el número de la nota que desea editar: \n"))
+            if 1 <= opcion <= len(notas):
+                nota_seleccionada = notas[opcion - 1]
+                
+                nuevo_titulo = input(f"Ingrese el nuevo título (actual: {nota_seleccionada['titulo']}): ")
+                nuevo_contenido = input(f"Ingrese el nuevo contenido (actual: {nota_seleccionada['contenido']}): ")
+                nueva_categoria = input(f"Ingrese la nueva categoría (actual: {nota_seleccionada['categoria']}): ")
+
+                if nuevo_titulo.strip():
+                    nota_seleccionada["titulo"] = nuevo_titulo
+                if nuevo_contenido.strip():
+                    nota_seleccionada["contenido"] = nuevo_contenido
+                if nueva_categoria.strip():
+                    nota_seleccionada["categoria"] = nueva_categoria
+
+                nota_seleccionada["fecha"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+                guardar_notas()
+                print("Nota editada exitosamente.")
+                break
+            else:
+                print("Número de nota inválido. Intente nuevamente.")
+        except ValueError:
+            print("Entrada inválida. Por favor, ingrese un número válido.")
+
+
+
+
+
+    
 menu = """
 Seleccione una opción:
 1. Agregar nota
@@ -121,8 +160,12 @@ cargar_notas()
 opc = 0
 
 while opc != 7:
+    try:
+        opc = int(input(menu))
+    except ValueError:
+        print("Entrada inválida. Por favor, ingrese un número válido.")
+        continue
 
-    opc = int(input(menu)) 
     if opc == 1:
         print("Agregar nota")
         agregar_nota()
@@ -133,19 +176,22 @@ while opc != 7:
 
     elif opc == 3:
         print("Ver nota")
+        ver_nota()
 
     elif opc == 4:
         print("Editar nota")
+        editar_nota()
 
     elif opc == 5:
         print("Eliminar nota")
+        eliminar_nota()
 
     elif opc == 6:
         print("Buscar nota")
+        buscar_nota()
 
     elif opc == 7:
         print("Gracias por usar el sistema de notas. ¡Hasta luego!")  
-
     else:
         print("Opción inválida. Por favor, seleccione una opción válida.")
 
